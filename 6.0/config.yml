@@ -1,0 +1,50 @@
+simulation:
+  structure_file: "combined_structure30_60.data"
+  potential_file: "Au_u3.eam"
+  atom_mass: 196.97  # 196.97 g/mol
+  cutoff_distance: 3.0  # Angstrom
+  timestep: 0.001     # picoseconds
+  total_steps: 15000    # Updated default simulation time
+  dump_frequency: 100 # output frames
+  analysis_frequency: 1 # data record frequency
+  dump_formats:
+    - lammpstrj    # Standard LAMMPS trajectory format
+    - xyz          # Simple XYZ format
+    - dcd          # DCD format (compatible with VMD)
+  force_cutoff: 45.0    # Angstrom - distance below which forces are removed
+  temperature: 300  # K
+
+  enable_rigid: false # Controls whether it is a rigid body
+  enable_rotation: true # Control whether to rotate
+
+reference:
+  radius: 30 # Used to correct measurement outliers
+  height: 60 # Used to correct measurement outliers
+  force_scale: 0.000042 # Factor of the horizontal approach force.
+                        # Reference values have been set internally based on quality.
+
+rotation_parameters:
+  torque_scale: 1 # Controls whether to use reference value rotation
+  particle0:
+    axis: [0.0, 1.0, 0.0] # Control the rotation of nanoparticles around the XYZ axis
+    base_torque: 3600.0 # Setting the base torque
+    scale_by_mass: true
+
+  particle1:
+    axis: [0.0, 0.0, 1.0]
+    base_torque: 3600.0
+    scale_by_mass: true
+
+output:
+  trajectory_file: "trajectory.lammpstrj"
+  energy_files:
+    txt: "energies.txt"
+    csv: "energies.csv"
+  group1_structure: "particle1.data"
+  group2_structure: "particle2.data"
+  trajectory_formats:
+    lammpstrj: "trajectory.lammpstrj"
+    xyz: "trajectory.xyz"
+    dcd: "trajectory.dcd"
+  forces: true
+  trajectories: true
