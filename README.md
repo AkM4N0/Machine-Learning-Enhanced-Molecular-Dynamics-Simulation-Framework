@@ -1,23 +1,81 @@
 # Machine Learning-Enhanced Molecular Dynamics Simulation Framework
 
-This repository contains a code-only snapshot of a research workflow for predicting interaction forces between anisotropic nanoparticles with a combination of molecular dynamics (MD) simulation and machine learning. The project focuses on spherocylindrical gold nanoparticles and aims to bridge the gap between atomistic simulation and efficient mesoscale force prediction.
+## Overview
 
-Instead of relying on full atomic-coordinate machine learning interatomic potentials, this framework uses a compact mesoscale representation based on particle geometry, relative distance, and quaternion-based orientation. The goal is to directly predict the instantaneous 3D interaction force vector between two nanoparticles while keeping the pipeline physically interpretable and computationally efficient.
+This repository presents a research-oriented framework for predicting three-dimensional interaction forces between anisotropic nanoparticles by integrating molecular dynamics (MD) simulation with machine learning.
 
-## Project Overview
+The project focuses on spherocylindrical gold nanoparticles and aims to provide an efficient and physically interpretable alternative to expensive atomistic simulations. Instead of learning full interatomic potentials, this framework directly predicts instantaneous 3D force vectors using compact geometric and orientation-based representations.
 
-The full workflow combines three tightly connected stages:
+The core idea is to bridge simulation-based physics modeling and data-driven learning for scalable nanoscale interaction prediction.
 
-1. Molecular dynamics data generation with configurable LAMMPS-based simulation scripts.
-2. Geometry and orientation extraction, including PCA-based shape analysis and quaternion encoding.
-3. Machine learning training and evaluation for direct force-vector prediction.
+---
 
-According to the project documents, the study was designed around several core ideas:
+## Authorship and Ownership
 
-- direct prediction of 3D force vectors rather than only energy-derived forces
-- quaternion-based orientation encoding for stable anisotropic representation
-- physically guided preprocessing to handle severe zero-force / non-zero-force imbalance
-- progressive model development from baseline regression to temporally aware and multitask architectures
+This repository was independently developed and maintained by me as part of my research work on machine learning-enhanced molecular dynamics.
+
+All core components — including simulation workflow design, data generation, feature engineering, and model implementation — were designed and implemented by me.
+
+This repository reflects my original research contributions and provides a complete pipeline from simulation to machine learning-based force prediction.
+
+---
+
+## Research Contribution
+
+The main contributions of this work include:
+
+- Designing and implementing a configurable MD simulation framework for controlled nanoparticle interaction, including translation, rotation, and force logging
+- Building a reproducible simulation-to-data pipeline using LAMMPS with structured configuration management
+- Developing a geometry analysis pipeline using clustering (DBSCAN) and PCA-based principal axis extraction
+- Introducing quaternion-based orientation encoding with temporal consistency correction
+- Constructing a large-scale dataset across multiple nanoparticle aspect ratios and interaction configurations
+- Designing preprocessing strategies to address force sparsity, feature normalization, and temporal sequence construction
+- Implementing and evaluating multiple machine learning models, including:
+  - baseline MLP models
+  - calibrated multi-output regression models
+  - GRU-based temporal models
+  - multi-task quaternion-force learning architecture (MT-QuatForceNet)
+- Establishing a scalable workflow for coarse-grained force prediction in anisotropic nanoparticle systems
+
+---
+
+## Methodology
+
+The framework consists of three main stages:
+
+### 1. Molecular Dynamics Simulation
+- LAMMPS-based simulation of nanoparticle interactions
+- Controlled approach and rotation processes
+- Force extraction and trajectory recording
+- Configurable batch simulation pipeline
+
+### 2. Geometry and Feature Extraction
+- Particle identification using DBSCAN clustering
+- Shape representation using PCA-based principal axes
+- Quaternion-based orientation encoding
+- Temporal consistency correction for orientation signals
+
+### 3. Machine Learning Modeling
+- Dataset construction across varying geometric configurations
+- Feature normalization and imbalance handling
+- Model training using multiple architectures
+- Evaluation of force prediction accuracy and generalization
+
+---
+
+## Reproducibility
+
+The repository is organized to support reproducible research.
+
+To reproduce the workflow:
+
+1. Run MD simulations using scripts in `6.0/`
+2. Extract geometric and orientation features using `data_output/`
+3. Train and evaluate models using `lammp_training/`
+
+All modules are designed to be configurable and reusable.
+
+---
 
 ## Repository Structure
 
@@ -27,41 +85,43 @@ According to the project documents, the study was designed around several core i
 
 This repository currently keeps the original relative paths of those three code folders while excluding large generated outputs and heavy simulation artifacts.
 
-## Technical Highlights
+---
 
-Based on the accompanying documents, the framework includes:
+## Related Work
 
-- a YAML-configured MD pipeline with force logging, trajectory output, and timestamped run directories
-- DBSCAN-based particle identification and PCA-based principal-axis extraction
-- quaternion correction and temporal sign-consistency handling
-- dataset generation across multiple diameter/length ratios and relative orientations
-- physically aware sampling, normalization, and sequence construction
-- multiple learning architectures, including baseline MLP, calibrated multi-output MLP, GRU-based residual modeling, and MT-QuatForceNet
+This repository supports the research described in the manuscript:
 
-The project is motivated by the need to model force behavior in anisotropic nanoparticle systems more efficiently than repeated atomistic simulations, while still preserving physically meaningful descriptors such as geometry and orientation.
+**"Direct Prediction of Three-Dimensional Interaction Forces Between Anisotropic Nanoparticles Based on Quaternion Encoding and Multi-Task Deep Learning"**
 
-## My Contributions
+(Currently under submission)
 
-Based on the materials in the project documents, my contributions in this work include:
+---
 
-- designing and implementing the MD simulation framework for controlled nanoparticle approach, rotation, logging, and dataset generation
-- building a reproducible configuration-driven workflow around LAMMPS for geometry setup, force extraction, and batch simulation control
-- developing the geometry-analysis pipeline, including cluster identification, PCA-based descriptors, and quaternion-based orientation representation
-- constructing the force-learning dataset across multiple nanoparticle aspect ratios and orientation configurations
-- designing the preprocessing strategy to correct quaternion continuity, rebalance sparse force labels, normalize heterogeneous features, and construct temporal training windows
-- implementing and comparing multiple machine learning models for force prediction, from baseline MLP models to GRU-based and multitask quaternion-force architectures
-- organizing the project as a reusable simulation-to-learning pipeline aimed at scalable coarse-grained force prediction for nanoparticle systems
+## Research Motivation
 
-## Research Direction
+This work is motivated by the need to reduce the computational cost of nanoscale interaction modeling while preserving physically meaningful representations.
 
-The broader goal of this project is to support fast, data-driven estimation of nanoscale interaction forces without repeatedly running expensive atomistic simulations. In the longer term, the same workflow could be extended to:
+Compared to traditional atomistic simulations, this framework enables:
 
-- richer force maps with better coverage of asymmetric and high-gradient interaction regions
-- more nanoparticle shapes, aspect ratios, and materials
-- multi-particle interaction databases for larger nanoscale assemblies
+- faster force prediction
+- interpretable geometric representation
+- scalable modeling for larger systems
+
+---
+
+## Future Work
+
+Potential extensions include:
+
+- expanding force prediction coverage in complex interaction regions
+- incorporating additional nanoparticle geometries and materials
+- extending to multi-particle interaction systems
+- integrating reinforcement learning for adaptive simulation control
+
+---
 
 ## Notes
 
-- This repository currently contains the code portion of the project only.
-- Large simulation outputs, trajectories, checkpoints, and other generated artifacts are intentionally excluded from version control.
+- This repository contains the code component of the research workflow
+- Simulation outputs and large datasets are not included
 
